@@ -1,0 +1,19 @@
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    # --- Header aman, hampir tidak pernah merusak situs ---
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
+
+    # --- TAHAP 1: uji dulu dengan Report-Only (tidak memblokir) ---
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+
+    # --- TAHAP 2: setelah tidak ada error, GANTI nama baris di atas menjadi: ---
+    # Content-Security-Policy = "...isi yang sama..."
+
+    # HSTS sudah diset Netlify (max-age=31536000; includeSubDomains; preload).
+    # Tidak perlu ditimpa.
