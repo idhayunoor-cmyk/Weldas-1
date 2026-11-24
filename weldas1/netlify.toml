@@ -1,19 +1,20 @@
 [[headers]]
   for = "/*"
-
   [headers.values]
-    # --- Header aman, hampir tidak pernah merusak situs ---
+    # Mencegah MIME sniffing
     X-Content-Type-Options = "nosniff"
+
+    # Mencegah situs dibungkus dalam iframe origin lain (clickjacking)
     X-Frame-Options = "SAMEORIGIN"
+
+    # Mengatur pengiriman informasi referrer
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+
+    # Membatasi akses fitur perangkat/browser yang tidak diperlukan
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(self), usb=(), interest-cohort=()"
+
+    # Isolasi jendela/tab lintas asal
     Cross-Origin-Opener-Policy = "same-origin-allow-popups"
 
-    # --- TAHAP 1: uji dulu dengan Report-Only (tidak memblokir) ---
-    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
-
-    # --- TAHAP 2: setelah tidak ada error, GANTI nama baris di atas menjadi: ---
-    # Content-Security-Policy = "...isi yang sama..."
-
-    # HSTS sudah diset Netlify (max-age=31536000; includeSubDomains; preload).
-    # Tidak perlu ditimpa.
+    # Content Security Policy (CSP) aktif penuh
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net data:; img-src 'self' data: blob: https:; connect-src 'self' https:; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
